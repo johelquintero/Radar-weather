@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <title>Radar weather</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Leaflet CSS y JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Leaflet OpenWeatherMap plugin -->
+    <script src="https://unpkg.com/leaflet-openweathermap/leaflet-openweathermap.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="menu">
+    <button id="menu-toggle" onclick="toggleMenu()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+    <div id="menuContent" class="menu-content">
+        <label><input type="checkbox" id="toggleRadar" checked onchange="toggleLayer('radar')"> <span style="font-size:18px;vertical-align:middle;">📡</span> Mostrar Radar</label>
+        <label><input type="checkbox" id="toggleSatellite" checked onchange="toggleLayer('satellite')"> <span style="font-size:18px;vertical-align:middle;">🛰️</span> Mostrar Satélite</label>
+        <label><input type="checkbox" id="toggleCoverage" checked onchange="toggleLayer('coverage')"> <span style="font-size:17px;vertical-align:middle;">🗺️</span> Mostrar Cobertura</label>
+        <label><input type="checkbox" id="toggleInfraSat" onchange="toggleLayer('infraSat')"> <span style="font-size:18px;vertical-align:middle;">🌌</span> Satélite Infrarrojo (Weather.com)</label>
+        <label><input type="checkbox" id="toggleOWMCurrent" onchange="toggleOWMCurrentLayer()"> <span style="font-size:18px;vertical-align:middle;">⛅</span> Condiciones actuales</label>
+        <label>Transparencia:
+            <input type="range" id="opacityRange" min="0" max="1" step="0.1" value="0.7" onchange="adjustOpacity(this.value)">
+        </label>
+        <label>Velocidad de animación:
+            <select id="speedSelect" onchange="changeSpeed(this.value)">
+                <option value="50">Muy rápida</option>
+                <option value="150" selected>Rápida</option>
+                <option value="500">Normal</option>
+                <option value="1000">Lenta</option>
+            </select>
+        </label>
+        <label><input type="checkbox" id="smoothToggle" onchange="toggleSmooth(this.checked)"> Suavizado</label>
+        <label>Calidad:
+            <select id="qualitySelect" onchange="changeQuality(this.value)">
+                <option value="128">Muy baja (más rápida)</option>
+                <option value="256" selected>Media</option>
+                <option value="512">Alta</option>
+            </select>
+        </label>
+        <label>Número de frames:
+            <select id="framesSelect" onchange="changeFrames(this.value)">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="20">20</option>
+            </select>
+        </label>
+        <label><input type="checkbox" id="toggleMusic" checked onchange="toggleMusic()"> <span style="font-size:18px;vertical-align:middle;">🎵</span> Música de fondo</label>
+        <hr>
+        <button onclick="startAnimation()">▶ Reproducir</button>
+        <button onclick="stopAnimation()">⏸ Pausar</button>
+        <button onclick="stepBackward()">⏪ Anterior</button>
+        <button onclick="stepForward()">⏩ Siguiente</button>
+    </div>
+</div>
+
+    <div id="timestamp">
+        <span id="timestampText">Esperando datos...</span>
+        <div id="satTimestampText" style="font-size:13px;color:#2563eb;margin-top:2px;display:none"></div>
+        <div id="loadingBar" style="display:none;min-width:180px;margin:6px 0 0 0;">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <span style="font-size:14px;font-weight:500;color:#2563eb;">Cargando datos del radar...</span>
+                <div style="flex:1;min-width:90px;max-width:140px;background:#e0e7ef;border-radius:8px;height:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                    <div id="loadingBarProgress" style="height:100%;width:0%;background:#4caf50;transition:width 0.3s;"></div>
+                </div>
+            </div>
+        </div>
+        <div id="progressBarContainer" style="position:relative;margin-top:6px;">
+            <div id="progressBar" style="position:absolute;left:0;top:0;height:100%;background:#4caf50;width:0%;transition:width 0.3s;"></div>
+            <div id="progressBarBg" style="width:100%;height:8px;background:#eee;border-radius:4px;position:relative;z-index:0;"></div>
+            <span id="progressStart" style="position:absolute;left:0;top:10px;font-size:11px;color:#234;"></span>
+            <span id="progressEnd" style="position:absolute;right:0;top:10px;font-size:11px;color:#234;"></span>
+        </div>
+    </div>
+    <div id="mapid"></div>
+
+    <div id="radar-legend"></div>
+
+<!-- Reproductor de música de fondo -->
+<audio id="weatherMusic" autoplay style="display:none"></audio>
+
+<script src="app.js" defer></script>
+
+</body>
+</html>

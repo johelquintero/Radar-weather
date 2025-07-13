@@ -1,0 +1,226 @@
+body, html { margin: 0; padding: 0; height: 100%; }
+#mapid { position: absolute; top: 0; bottom: 0; right: 0; left: 0; }
+.menu {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 1000;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+#menu-toggle {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+#menu-toggle:hover {
+    background: #f7f7f7;
+    transform: translateY(-1px);
+}
+#menu-toggle svg {
+    color: #333;
+}
+.menu-content {
+    display: none;
+    background: #f8fafc;
+    border: 1px solid #e0e7ef;
+    padding: 12px 8px 10px 8px;
+    margin-top: 7px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.menu-content label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #234;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-radius: 5px;
+    padding: 2px 2px 2px 0;
+}
+.menu-content label:hover {
+    background: #e3eafc;
+}
+.menu-content input[type="checkbox"] {
+    accent-color: #2563eb;
+    width: 18px;
+    height: 18px;
+}
+.menu-content select, .menu-content input[type="range"] {
+    margin-left: 8px;
+}
+.menu-content hr {
+    border: none;
+    border-top: 1px solid #e0e7ef;
+    margin: 10px 0 10px 0;
+}
+#timestamp {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    background-color: rgba(255,255,255,0.8);
+    padding: 5px 10px 10px 10px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    min-width: 220px;
+}
+#progressBarContainer {
+    width: 100%;
+    background: #eee;
+    border-radius: 4px;
+    height: 8px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+#progressBar {
+    height: 100%;
+    width: 0%;
+    background: #4caf50;
+    transition: width 0.3s;
+}
+.leaflet-tile-pane { z-index: 1; }
+.leaflet-overlay-pane { z-index: 200; }
+.leaflet-control-container .leaflet-top.leaflet-left {
+    left: auto;
+    right: 10px;
+}
+#loadingBar {
+    display: none;
+}
+.leaflet-control-locate {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.leaflet-control-locate:hover {
+    background: #f0f0f0;
+}
+
+/* --- Estilos movidos desde app.js --- */
+
+.leaflet-top.leaflet-right {
+    top: 50% !important;
+    transform: translateY(-50%);
+    right: 10px;
+}
+.leaflet-control-zoom {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+}
+
+.owm-label-arrow-icon {
+    background: none;
+    border: none;
+}
+.owm-label-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+}
+.owm-label-arrow-content {
+    background: rgba(0, 0, 0, 0.4); /* Fondo más transparente */
+    backdrop-filter: blur(3px);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Borde más sutil */
+    color: #fff; /* Texto blanco para mejor contraste */
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    padding: 3px 8px;
+    text-align: center;
+    white-space: nowrap;
+    position: relative;
+    /* Se ajustará la posición desde JS, pero estos son buenos valores por defecto */
+    bottom: 5px;
+}
+.owm-label-arrow-content b {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    text-shadow: none;
+}
+.owm-label-arrow-pointer {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba(0, 0, 0, 0.4); /* Puntero a juego con el fondo */
+    margin: 0 auto;
+}
+.country-label {
+    background: rgba(255,255,255,0.7);
+    border-radius: 4px;
+    color: #d35400;
+    font-size: 13px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 1px 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    text-align: center;
+    pointer-events: none;
+}
+.state-label {
+    background: rgba(255,255,255,0.8);
+    border-radius: 4px;
+    color: #0066cc;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 1px 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    text-align: center;
+    pointer-events: none;
+}
+
+#radar-legend {
+    position: absolute;
+    bottom: 30px;
+    left: 10px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+}
+.legend-color {
+    width: 20px;
+    height: 15px;
+    margin-right: 8px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.legend-label {
+    color: #333;
+    font-weight: 500;
+}
